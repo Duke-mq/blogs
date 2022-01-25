@@ -1,0 +1,30 @@
+.header{
+    background-color: #fff;
+    /* 因为要适配多个屏幕,所以用rem */
+    padding: .4rem;
+    /* 超过了就不显示了 */
+    overflow: hidden;
+    height: 3.2rem;
+    /* 深灰色 */
+    border-bottom: 1px solid #ccc;
+}
+.header-logo{
+    color: #1e90ff;
+    font-size: 1.4rem;
+    text-align: left;
+}
+.header-txt{
+    font-size:1rem;
+    color: #999;
+    /* 让他们在同一行 */
+    display: inline-block;
+    padding-left:.5rem;
+}
+/* menu的样式要按antd自己的类名才能改成功 */
+.ant-meu{
+    line-height: 2.8rem;
+}
+.ant-menu-item{
+    font-size:0.8rem !important;
+    padding-left:0.5rem;
+}
