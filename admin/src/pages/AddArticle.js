@@ -59,7 +59,7 @@ function AddArticle(props){
     useEffect(()=> {
         getTypeInfo()
     },[])
-    
+
     //从中台得到文章类别信息
     const changeContent = (e)=>{
         /*把文章的值赋为输入内容*/
@@ -75,7 +75,7 @@ function AddArticle(props){
 
     const saveArticle = ()=>{
         if(selectedType === '请选择类型'){
-            message.error('必须选择文章类别')
+            message.error('请选择文章类别')
             return false
         }else if(!articleTitle){
             message.error('文章名称不能为空')
@@ -90,7 +90,60 @@ function AddArticle(props){
             message.error('发布日期不能为空')
             return false
         }
-        message.success('检验通过')
+        /*字面量定义一个date里面的对象，键名要和数据库的字段一样*/
+        let dataProps={}   //传递到接口的参数
+        dataProps.type_id = selectedType
+        dataProps.title = articleTitle
+        dataProps.article_content =articleContent
+        dataProps.introduce =introducemd
+        /*因为你传过来是2022-1-22的形式，要传入到数据库中，必须对时间做出转换*/
+        let datetext= showDate.replace('-','/') //把字符串转换成时间戳
+        /*访问的人数*/
+        dataProps.addTime =(new Date(datetext).getTime())/1000
+        if(articleId==0){
+            dataProps.view_count =Math.ceil(Math.random()*100)+1000
+            axios({
+                method: 'post',
+                url: servicePath.addArticle,
+                data:dataProps,
+                /*使用我们的cookie,并且支持跨域*/
+                withCredentials:true
+            })
+            axios({
+                method:'post',
+                url:servicePath.addArticle,
+                data:dataProps,
+                withCredentials: true
+            }).then(
+                res=>{
+                    setArticleId(res.data.insertId)
+                    if(res.data.isScuccess){
+                        message.success('文章保存成功')
+                    }else{
+                        message.error('文章保存失败');
+                    }
+                }
+            )
+        }
+        else {
+            /*update的一个规则,必须在对象里面有一个id字段里面指定要修改的一条数据库记录*/
+            dataProps.id = articleId //就是要修改哪条
+            axios({
+                method: 'post',
+                url: servicePath.updateArticle,
+                data:dataProps,
+                /*使用我们的cookie,并且支持跨域*/
+                withCredentials:true
+            }).then(
+                res => {
+                    if(res.data.isScuccess) {
+                        message.success('文章修改成功')
+                    }
+                    else {
+                        message.error('文章修改失败')
+                    }
+                })
+        }
     }
 
     return (
@@ -102,13 +155,15 @@ function AddArticle(props){
                             <Input
                                 placeholder="博客标题"
                                 size="large"
+                                value={articleTitle}
                                 onChange={e =>
                                     setArticleTitle(e.target.value)
                                 }/>
                         </Col>
                         <Col span={4}>
                             &nbsp;
-                            <Select defaultValue={selectedType} size="large" onSelect={selectTypeHandle} >
+                            {/*onChange的时候，会自动把value传入到selectTypeHandle*/}
+                            <Select defaultValue={selectedType} size="large" onChange={selectTypeHandle} >
                                 {
                                     typeInfo.map((item,index)=> {
                                             return(<Option key={index} value={item.id}> {item.typeName}</Option>
@@ -175,5 +230,7 @@ function AddArticle(props){
         </div>
     )
 }
+
+
 export default AddArticle
 

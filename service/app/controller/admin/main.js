@@ -27,6 +27,33 @@ class MainController extends Controller{
         const resType = await this.app.mysql.select('type')
         this.ctx.body = {data:resType}
     }
+    //添加文章
+    async addArticle(){
+        let tmpArticle= this.ctx.request.body
+        console.log(tmpArticle)
+        /*mysql 插入数据Api,tmpArticle是一个对象*/
+        const result = await this.app.mysql.insert('article',tmpArticle)
+        console.log('打印下插入数据库的result',result)
+        const insertSuccess = result.affectedRows === 1
+        /*为什么要返回一个插入Id，因为我们可能发布文章后要修改*/
+        const insertId = result.insertId
+        this.ctx.body={
+            isScuccess:insertSuccess,
+            insertId:insertId
+        }
+    }
+    //修改文章
+    async updateArticle(){
+        let tmpArticle= this.ctx.request.body
+        console.log('打印下',tmpArticle)
+        const result = await this.app.mysql.update('article', tmpArticle);
+        console.log('打印下结果',result)
+        const updateSuccess = result.affectedRows === 1;
+        console.log(updateSuccess)
+        this.ctx.body={
+            isScuccess:updateSuccess
+        }
+    }
 }
 
 
