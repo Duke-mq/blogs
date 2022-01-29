@@ -8,4 +8,8 @@ module.exports = app => {
     router.get('/admin/getTypeInfo',controller.admin.main.getTypeInfo)
     router.post('/admin/addArticle',controller.admin.main.addArticle)
     router.post('/admin/updateArticle',controller.admin.main.updateArticle)
+    router.get('/admin/getArticleList',controller.admin.main.getArticleList);// 使用路由守卫
+    router.get('/admin/delArticle/:id', controller.admin.main.delArticle);// 使用路由守卫
+    router.get('/admin/getArticleById/:id',controller.admin.main.getArticleById);// 使用路由守卫
+
 }

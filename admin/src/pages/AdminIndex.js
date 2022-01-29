@@ -2,6 +2,7 @@ import React,{useState} from 'react';
 import { Layout, Menu, Breadcrumb} from 'antd';
 import { Route } from "react-router-dom";
 import AddArticle from './AddArticle'
+import ArticleList from './ArticleList'
 import '../static/AdminIndex.css'
 import {
     DesktopOutlined,
@@ -11,11 +12,20 @@ import {
 } from '@ant-design/icons';
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
-function AdminIndex(){
+function AdminIndex(props){
     const [collapsed,setCollapsed] = useState(false)
     const onCollapse = collapsed => {
         setCollapsed(collapsed)
     };
+    const handleClickArticle = e => { //传入一个e,因为这里需要用它的key
+        console.log(props)
+        console.log(props.history)
+        if (e.key === 'addArticle') {
+            props.history.push('/index/add')
+        } else {
+            props.history.push('/index/list')
+        }
+    }
     return (
         <Layout style={{ minHeight: '100vh' }}>
             <Sider  collapsible collapsed={collapsed} onCollapse={onCollapse}>
@@ -23,13 +33,13 @@ function AdminIndex(){
                 <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
                     <Menu.Item key="1" icon={ <PieChartOutlined /> }>工作台</Menu.Item>
                     <Menu.Item key="2" icon={ <DesktopOutlined /> }>添加文章</Menu.Item>
-                    <SubMenu key="sub1" icon ={ <UserOutlined /> } title="文章管理">
-                        <Menu.Item key="3">添加文章</Menu.Item>
-                        <Menu.Item key="4">文章列表</Menu.Item>
+                    <SubMenu key="sub1" icon ={ <UserOutlined /> } title="文章管理" onClick={handleClickArticle}>
+                        <Menu.Item key="addArticle">添加文章</Menu.Item>
+                        <Menu.Item key="articleList">文章列表</Menu.Item>
                     </SubMenu>
-                    <Menu.Item key="9" icon={<FileOutlined />}>
-                        留言管理
-                    </Menu.Item>
+                    {/*<Menu.Item key="9" icon={<FileOutlined />}>*/}
+                    {/*    留言管理*/}
+                    {/*</Menu.Item>*/}
                 </Menu>
             </Sider>
             <Layout >
@@ -44,6 +54,10 @@ function AdminIndex(){
                             {/* 因为是到这个页面就要显示AddArticle的内容，坐立Route中加一个exact精确匹配 */}
                             {/* 意思就是路径是/index AddArticle这个组件就会显示 */}
                             <Route path="/index/" exact component={AddArticle} />
+                            {/*  要能跳转，加一个list */}
+                            <Route path="/index/add/" exact component={AddArticle} />
+                            <Route path="/index/list/" exact component={ArticleList} />
+                            <Route path="/index/add/:id" exact component={AddArticle} />
                         </div>
                     </div>
                 </Content>
