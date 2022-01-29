@@ -28,7 +28,7 @@ module.exports = appInfo => {
       port: '3306',
       user: 'root',
       password: 'root',
-      database: 'react_blog',
+      database: 'blogs',
     },
     //是否加载
     app: true,
@@ -38,9 +38,10 @@ module.exports = appInfo => {
 
   config.security = {
     csrf: {enable: false},
-    domainWhiteList: [ '*' ]
+    domainWhiteList: ['http://127.0.0.1:3000','http://127.0.0.1:3001','http://127.0.0.1:7001']
   };
   config.cors = {
+    // origin: '*'
     origin: 'http://localhost:3000', //只允许这个域进行访问接口
     credentials: true,   // 允许cookies可以跨域,session也是cookie的一种
     allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS'
