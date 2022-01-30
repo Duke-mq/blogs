@@ -55,9 +55,13 @@ function AddArticle(props){
             }
         )
     }
-
-    useEffect(()=> {
+    useEffect(()=>{
         getTypeInfo()
+        let tmpId = props.match.params.id
+        if(tmpId){
+            setArticleId(tmpId)
+            getArticleById(tmpId)
+        }
     },[])
 
     //从中台得到文章类别信息
@@ -67,10 +71,30 @@ function AddArticle(props){
         let html=marked(e.target.value)
         setMarkdownContent(html)
     }
+
     const changeIntroduce = (e)=>{
         setIntroducemd(e.target.value)
         let html = marked(e.target.value)
         setIntroducehtml(html)
+    }
+
+    const getArticleById = (id)=>{
+        axios(servicePath.getArticleById+id,{
+            withCredentials: true,
+            // header:{ 'Access-Control-Allow-Origin':'*' }
+        }).then(
+            res=>{
+                setArticleTitle(res.data.data[0].title)
+                setArticleContent(res.data.data[0].article_content)
+                let html=marked(res.data.data[0].article_content)
+                setMarkdownContent(html)
+                setIntroducemd(res.data.data[0].introduce)
+                let tmpInt = marked(res.data.data[0].introduce)
+                setIntroducehtml(tmpInt)
+                setShowDate(res.data.data[0].addTime)
+                setSelectType(res.data.data[0].typeId)
+            }
+        )
     }
 
     const saveArticle = ()=>{
@@ -102,13 +126,6 @@ function AddArticle(props){
         dataProps.addTime =(new Date(datetext).getTime())/1000
         if(articleId==0){
             dataProps.view_count =Math.ceil(Math.random()*100)+1000
-            axios({
-                method: 'post',
-                url: servicePath.addArticle,
-                data:dataProps,
-                /*使用我们的cookie,并且支持跨域*/
-                withCredentials:true
-            })
             axios({
                 method:'post',
                 url:servicePath.addArticle,
@@ -192,7 +209,7 @@ function AddArticle(props){
                 <Col span={6}>
                     <Row>
                         <Col span={24}>
-                            <Button  size="large">暂存文章</Button>&nbsp;
+                            {/*<Button  size="large">暂存文章</Button>&nbsp;*/}
                             <Button type="primary"
                                     size="large"
                                     onClick={

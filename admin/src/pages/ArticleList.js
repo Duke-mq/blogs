@@ -25,8 +25,8 @@ function ArticleList(props) { //里面要传props，属性
     const delArticle = (id) => {
         // 确认框，也是有属性的
         confirm({
-            title: '确定删除这篇博客吗？',
-            content: '如果你点击ok,文章将永远被删除，无法恢复!',
+            title: '确定删除这篇文章吗？',
+            content: '如果你点击确认,文章将永远被删除，无法恢复!',
             onOk() {
                 // 404错，路经写错了，记得传id过去
                 axios(servicePath.delArticle + id, { withCredentials: true }).then(res => {
@@ -41,7 +41,6 @@ function ArticleList(props) { //里面要传props，属性
     }
     // 修改文章跳转的方法
     const updateArticle = (id) => {
-        console.log(id)
         axios({
             method: 'get',
             url: servicePath.getArticleById + id,
@@ -56,6 +55,7 @@ function ArticleList(props) { //里面要传props，属性
             }
         )
     }
+    
     return (
         <div>
             {/*属性 header：列表的头 */}
@@ -64,7 +64,7 @@ function ArticleList(props) { //里面要传props，属性
                     // 接受对象，里面可以写JSX
                     <Row className="list-div">
                         {/* 24格布局占用多少个 */}
-                        <Col span={8}>
+                        <Col span={6}>
                             {/* 加粗 */}
                             <b>标题</b>
                         </Col>
@@ -89,7 +89,7 @@ function ArticleList(props) { //里面要传props，属性
                     <List.Item>
                         <Row className="list-div">
                             {/* 24格布局占用多少个 */}
-                            <Col span={8}>
+                            <Col span={6}>
                                 {/* 加粗 */}
                                 {item.title}
                             </Col>
