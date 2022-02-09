@@ -17,9 +17,8 @@ function AdminIndex(props){
     const onCollapse = collapsed => {
         setCollapsed(collapsed)
     };
-    const handleClickArticle = e => { //传入一个e,因为这里需要用它的key
-        console.log(props)
-        console.log(props.history)
+    const handleClickArticle = e => {
+        //传入一个e,因为这里需要用它的key,去判断是在删除还是修改
         if (e.key === 'addArticle') {
             props.history.push('/index/add')
         } else {
@@ -37,9 +36,6 @@ function AdminIndex(props){
                         <Menu.Item key="addArticle">添加文章</Menu.Item>
                         <Menu.Item key="articleList">文章列表</Menu.Item>
                     </SubMenu>
-                    {/*<Menu.Item key="9" icon={<FileOutlined />}>*/}
-                    {/*    留言管理*/}
-                    {/*</Menu.Item>*/}
                 </Menu>
             </Sider>
             <Layout >
