@@ -14,6 +14,7 @@ import servicePath from '../config/apiUrl'
 import Link from 'next/link'
 const ArticleList = (props) =>{
     const [ mylist , setMylist ] = useState(props.data);
+    console.log(mylist)
     useEffect(()=>{
         setMylist(mylist)
     })
@@ -29,7 +30,7 @@ const ArticleList = (props) =>{
                         <div className="bread-div">
                             <Breadcrumb>
                                 <Breadcrumb.Item><a href="/">首页</a></Breadcrumb.Item>
-                                <Breadcrumb.Item>视频列表</Breadcrumb.Item>
+                                <Breadcrumb.Item>{mylist[0].typeName}</Breadcrumb.Item>
                             </Breadcrumb>
                         </div>
 

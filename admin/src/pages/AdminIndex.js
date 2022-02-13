@@ -7,7 +7,6 @@ import '../static/AdminIndex.css'
 import {
     DesktopOutlined,
     PieChartOutlined,
-    FileOutlined,
     UserOutlined,
 } from '@ant-design/icons';
 const { Header, Content, Footer, Sider } = Layout;
@@ -39,7 +38,6 @@ function AdminIndex(props){
                 </Menu>
             </Sider>
             <Layout >
-                {/*<Header style={{ background: '#fff', padding: 0 }} />*/}
                 <Content style={{ margin: '0 16px' }}>
                     <Breadcrumb style={{ margin: '16px 0' }}>
                         <Breadcrumb.Item>后台管理</Breadcrumb.Item>
@@ -47,17 +45,14 @@ function AdminIndex(props){
                     </Breadcrumb>
                     <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
                         <div>
-                            {/* 因为是到这个页面就要显示AddArticle的内容，坐立Route中加一个exact精确匹配 */}
-                            {/* 意思就是路径是/index AddArticle这个组件就会显示 */}
                             <Route path="/index/" exact component={AddArticle} />
-                            {/*  要能跳转，加一个list */}
                             <Route path="/index/add/" exact component={AddArticle} />
                             <Route path="/index/list/" exact component={ArticleList} />
                             <Route path="/index/add/:id" exact component={AddArticle} />
                         </div>
                     </div>
                 </Content>
-                {/*<Footer style={{ textAlign: 'center' }}>许绵渠</Footer>*/}
+                <Footer style={{ textAlign: 'center' }}>Create By React</Footer>
             </Layout>
         </Layout>
     )

@@ -4,8 +4,7 @@ const Footer = ()=> {
 
     return(
         <div className="footer-div">
-            <div>博客由 React+Node+Ant Desgin构建</div>
-            <div>许绵渠</div>
+            <div>Create By React+Node+Antd</div>
         </div>
     )
 }

@@ -3,6 +3,7 @@ class HomeController extends Controller{
     async index(){
         this.ctx.body= 'api hi'
     }
+
     //这个是获取所有文章的接口
     async getArticleList(){
         let sql = 'SELECT article.id as id,'+
@@ -17,6 +18,7 @@ class HomeController extends Controller{
             data:results
         }
     }
+
     async getArticleById(){
         //先配置路由的动态传值，然后再接收值,再进行sql查询
         let id = this.ctx.params.id

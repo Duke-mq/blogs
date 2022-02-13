@@ -4,11 +4,11 @@ import axios from 'axios' //需要跟中台接口进行交互
 import servicePath from '../config/apiUrl'
 import '../static/ArticleList.css'
 const { confirm } = Modal //在Modal中，所以要解构一下
-function ArticleList(props) { //里面要传props，属性
-    const [list, setList] = useState([]) //是个数组
+function ArticleList(props) {
+    const [list, setList] = useState([])
     useEffect(() => {
         getList();
-    }, []) //只进行一次渲染
+    }, [])
     // 获取数据
     const getList = () => {
         axios({

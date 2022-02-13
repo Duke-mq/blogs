@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { marked} from 'marked' //要安装一下 //处理markdown的
-// 还要使用一个css样式
 import '../static/AddArticle.css'
-// 使用antd中想要的组件
-// 因为是表单，所以肯定有input,还有对类别进行选择的组件Select,提交按钮,日期选择
 import { Row, Col, Input, Select, Button, DatePicker, message } from 'antd'
 import axios from 'axios' //引入后台获得数据的方法
 import servicePath from '../config/apiUrl'
@@ -21,6 +18,7 @@ function AddArticle(props){
     const [typeInfo ,setTypeInfo] = useState([]) // 文章类别信息
     const [selectedType,setSelectType] = useState('请选择类型') //选择的文章类别
     const renderer = new marked.Renderer()
+    /*支持文档 https://marked.js.org/using_advanced*/
     marked.setOptions({
         renderer: renderer,
         gfm: true,
@@ -31,14 +29,16 @@ function AddArticle(props){
         smartLists: true,
         smartypants: false,
     });
+
     const selectTypeHandle = value =>{
         setSelectType(value)
     }
+
     const getTypeInfo =()=>{
         axios({
             method:'get',
             url:servicePath.getTypeInfo,
-            /* header:{ 'Access-Control-Allow-Origin':'*' },*/
+            // header:{ 'Access-Control-Allow-Origin':'*' },
             /*如果要使用跨域cookie，就要加这个东西,我们的中间件就要来检验我们的cookie。*/
             withCredentials: true
         }).then(
@@ -55,9 +55,11 @@ function AddArticle(props){
             }
         )
     }
+
     useEffect(()=>{
         getTypeInfo()
         let tmpId = props.match.params.id
+        console.log(tmpId)
         if(tmpId){
             setArticleId(tmpId)
             getArticleById(tmpId)
@@ -149,7 +151,7 @@ function AddArticle(props){
                 method: 'post',
                 url: servicePath.updateArticle,
                 data:dataProps,
-                /*使用我们的cookie,并且支持跨域*/
+                /*因为后端配置了CORS跨域,默认不带cookie,需要配置*/
                 withCredentials:true
             }).then(
                 res => {
@@ -209,14 +211,11 @@ function AddArticle(props){
                 <Col span={6}>
                     <Row>
                         <Col span={24}>
-                            {/*<Button  size="large">暂存文章</Button>&nbsp;*/}
                             <Button type="primary"
                                     size="large"
-                                    onClick={
-                                        saveArticle
-                                    }
-
-                            >发布文章</Button>
+                                    onClick={saveArticle}>
+                                    发布文章
+                            </Button>
                         </Col>
                         <Col span={24}>
                             <br/>

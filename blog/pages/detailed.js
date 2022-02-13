@@ -52,18 +52,18 @@ const Detailed = (props) => {
                     <div className="bread-div">
                         <Breadcrumb>
                             <Breadcrumb.Item><a href="/">首页</a></Breadcrumb.Item>
-                            <Breadcrumb.Item>视频列表</Breadcrumb.Item>
-                            <Breadcrumb.Item>xxxx</Breadcrumb.Item>
+                            <Breadcrumb.Item>日常记录</Breadcrumb.Item>
+                            <Breadcrumb.Item>{props.title}</Breadcrumb.Item>
                         </Breadcrumb>
                     </div>
                     <div>
                         <div className="detailed-title">
-                            React实战视频教程-技术胖Blog开发(更新08集)
+                            {props.title}
                         </div>
                         <div className="list-icon center">
-                            <span><CalendarOutlined /> 2019-06-28</span>
-                            <span><FolderOpenOutlined /> 视频教程</span>
-                            <span><FireOutlined /> 5498人</span>
+                            <span><CalendarOutlined /> {props.addTime}</span>
+                            <span><FolderOpenOutlined /> {props.typeName}</span>
+                            <span><FireOutlined /> {props.view_count}人</span>
                         </div>
                         {/*dangerouslySetInnerHTML 是react为浏览器Dom做的innerHTML的替代方案*/}
                         <div className="detailed-content" dangerouslySetInnerHTML={{ __html: html }}>
@@ -97,7 +97,6 @@ Detailed.getInitialProps = async (context)=>{
     const promise = new Promise((resolve)=>{
         console.log(id)
         axios(servicePath.getArticleById+id).then(
-        // axios('http://127.0.0.1:7001/default/getArticleById/' + id).then(
             (res)=>{
                 console.log('打印结果',res)
                 resolve(res.data.data[0])

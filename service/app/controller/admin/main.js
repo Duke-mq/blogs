@@ -6,6 +6,7 @@ class MainController extends Controller{
         //首页的文章列表数据
         this.ctx.body='hi api'
     }
+
     async checkLogin(){
         let username = this.ctx.request.body.username
         let password = this.ctx.request.body.password
@@ -17,12 +18,14 @@ class MainController extends Controller{
         /* 登录成功,进行session缓存，把事件戳赋值给openid，并在服务器上面的session缓存openid对象，
             把openid对象传给前端，前端有openid对象，后端session有暂存openid对象，下次验证不用走数据库查询，节省资源*/
             let openId=new Date().getTime()
+            /*创建session，并将唯一标识存放在session中*/
             this.ctx.session.openId={ 'openId':openId }
             this.ctx.body={'data':'登录成功','openId':openId}
         }else{
             this.ctx.body={data:'登录失败'}
         }
     }
+
     async getTypeInfo() {
         const resType = await this.app.mysql.select('type')
         this.ctx.body = {data:resType}
@@ -76,7 +79,6 @@ class MainController extends Controller{
         const res = await this.app.mysql.delete('article', { id });
         this.ctx.body = { data: res };
     }
-    // 修改文章
     // 先要获得要修改的文章，根据文章id获得
     async getArticleById() {
         const id = this.ctx.params.id;
